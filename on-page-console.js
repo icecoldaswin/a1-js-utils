@@ -188,7 +188,7 @@ var wireup = () => {
                 x.className = "themed-color-code console-message error " + theme;
                 
                 x.innerText = message.stack;
-            } else if (typeof message === 'object') {
+            } else if (typeof message === 'boolean' || typeof message === 'object') {
                 x.className = "themed-color-code console-message system " + theme;
 
                 x.innerText = message + ". Stringified: " + JSON.stringify(message);
