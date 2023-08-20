@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1px;
+}
+table[id="canvas"] {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+}
+table[id="cmd-table"] {
+    font-family: monospace; 
+    font-size: small;
+}
+input[id="cmd"]:focus {
+    outline: none;
+}
+
+.themed-color-code.console.day { background-color: white; color: black; }
+.themed-color-code.console.night { background-color: darkslategray; color: gainsboro; }
+
+.themed-color-code.body.day { background-color: white; color: black; }
+.themed-color-code.body.night { background-color: black; color: white; }
+
+.themed-color-code.canvas.day { background-color: white; color: black; }
+.themed-color-code.canvas.night { background-color: gray; color: white; }
+
+.themed-color-code.console-message.timestamp.day { color: #efefef; }
+.themed-color-code.console-message.timestamp.night { color: #efefef; }
+
+.themed-color-code.console-message.system.day { color: blue; }
+.themed-color-code.console-message.system.night { color: lightblue; }
+
+.themed-color-code.console-message.user.day { color: black; }
+.themed-color-code.console-message.user.night { color: gainsboro; }
+
+.themed-color-code.console-message.error.day { color: red; }
+.themed-color-code.console-message.error.night { color: red; }
+
+.themed-color-code.console-message.reserved-words.day { color: orange; }
+.themed-color-code.console-message.reserved-words.night { color: yellow; }
+
+.control-panel-cta {
+    border-width: 1px; border-style: solid; border-color: gainsboro; 
+}
