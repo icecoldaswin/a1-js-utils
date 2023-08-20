@@ -51,7 +51,7 @@ var createConsole = () => {
     
     link.rel  = 'stylesheet';
     link.type = 'text/css';
-    link.href = 'on-page-console.css';
+    link.href = 'https://icecoldaswin.github.io/a1-js-utils/on-page-console.css';
     link.media = 'all';
     head.appendChild(link);
 
