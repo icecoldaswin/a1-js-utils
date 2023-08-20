@@ -138,6 +138,7 @@ var createConsole = () => {
 
 var wireup = () => {
     var oldLog = console.log;
+    var oldErr = console.error;
     var onBrowserLogConsole = document.getElementById("console-log");
     var theme = "night";
     var flip = (theme) => (theme === "day" ? "night" : "day");
@@ -175,39 +176,40 @@ var wireup = () => {
     };
     toggleTheme();
     
-    console.log = function (message) {
-        try {var x = document.createElement("span");
+    var pipe = function (message) {
+        try {
+            var x = document.createElement("span");
         
-        var dateSpan = document.createElement("span");
-        dateSpan.style = "color: gray";
-        dateSpan.innerText = "["+(new Date().toLocaleString('en-US', {hour12: false}))+"] ";
-        
-        if (message instanceof Error) {
-            x.className = "themed-color-code console-message error " + theme;
+            var dateSpan = document.createElement("span");
+            dateSpan.style = "color: gray";
+            dateSpan.innerText = "["+(new Date().toLocaleString('en-US', {hour12: false}))+"] ";
             
-            x.innerText = message.stack;
-        } else if (typeof message === 'object') {
-            x.className = "themed-color-code console-message system " + theme;
+            if (message instanceof Error) {
+                x.className = "themed-color-code console-message error " + theme;
+                
+                x.innerText = message.stack;
+            } else if (typeof message === 'object') {
+                x.className = "themed-color-code console-message system " + theme;
 
-            x.innerText = message + ". Stringified: " + JSON.stringify(message);
-        } else if(typeof message === 'function') {
-            x.className = "themed-color-code console-message system " + theme;
+                x.innerText = message + ". Stringified: " + JSON.stringify(message);
+            } else if(typeof message === 'function') {
+                x.className = "themed-color-code console-message system " + theme;
 
-            x.innerText = message;
-        } else if(message !== undefined && message.startsWith("cmdlet-")) {
-            x.className = "themed-color-code console-message reserved-words " + theme;
+                x.innerText = message;
+            } else if(message !== undefined && message.startsWith("cmdlet-")) {
+                x.className = "themed-color-code console-message reserved-words " + theme;
 
-            x.innerText = message.substr(7);
-        } 
-        else {
-            x.className = "themed-color-code console-message user " + theme;
+                x.innerText = message.substr(7);
+            } 
+            else {
+                x.className = "themed-color-code console-message user " + theme;
 
-            x.innerText = message;
-        }
+                x.innerText = message;
+            }
 
-        onBrowserLogConsole.appendChild(dateSpan);
-        onBrowserLogConsole.appendChild(x);
-        onBrowserLogConsole.appendChild(document.createElement("br"));
+            onBrowserLogConsole.appendChild(dateSpan);
+            onBrowserLogConsole.appendChild(x);
+            onBrowserLogConsole.appendChild(document.createElement("br"));
         } catch(error) {
             oldLog("Unable to log the following on onBrowserLogConsole:");
             oldLog("===================================================");
@@ -220,6 +222,8 @@ var wireup = () => {
         }
         document.getElementById('console-fieldset').scrollTop = document.getElementById('console-fieldset').scrollHeight;
     };
+    console.log = pipe;
+    console.error = pipe;
 };
 
 (function (exports, d) {
