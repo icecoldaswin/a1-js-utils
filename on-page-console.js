@@ -62,7 +62,7 @@ var createConsole = () => {
     head.appendChild(link);
 
     var fieldSet = document.createElement('fieldset');
-    fieldSet.classList = ["themed-color-code", "console"];
+    fieldSet.classList = ["themed-color-code console"];
     fieldSet.style.borderColor = "aliceblue";
     fieldSet.style.height =  "100%";
     fieldSet.style.overflowY = "auto";
@@ -74,7 +74,7 @@ var createConsole = () => {
     clearConsoleCta.id = "clear-console-cta";
     clearConsoleCta.addEventListener('click', e => {clearconsole()});
     var clearConsoleFaRefreshIcon = document.createElement("i");
-    clearConsoleFaRefreshIcon.classList = ["fa", "fa-refresh"];
+    clearConsoleFaRefreshIcon.classList = ["fa fa-refresh"];
     clearConsoleCta.appendChild(clearConsoleFaRefreshIcon);
 
     legend.innerText = "Console. ";
@@ -100,11 +100,11 @@ var createConsole = () => {
             commandInputRenderingTable.style.width = "100%";
             var commandInputRenderingTableTr = document.createElement('tr');
                 var commandSymbolRenderingTableTd = document.createElement('td');
-                    commandSymbolRenderingTableTd.classList = ["themed-color-code", "console"];
+                    commandSymbolRenderingTableTd.classList = ["themed-color-code console"];
                     commandSymbolRenderingTableTd.style.width = "1%";
                     commandSymbolRenderingTableTd.innerText = ">";
                 var commandInputRenderingTableTd = document.createElement('td');
-                    commandInputRenderingTableTd.classList = ["themed-color-code", "console"];
+                    commandInputRenderingTableTd.classList = ["themed-color-code console"];
                     commandInputRenderingTableTd.style.width = "95%";
                 var commandInputBox = document.createElement('input');
                     commandInputBox.type = "text";
@@ -114,7 +114,7 @@ var createConsole = () => {
                     commandInputBox.id = "cmd";
                     commandInputBox.placeholder="command";
                     commandInputBox.autofocus = 'true';
-                    commandInputBox.classList = ["themed-color-code", "console"];
+                    commandInputBox.classList = ["themed-color-code console"];
                     commandInputBox.addEventListener('keydown', e => handleKeyPress(e));
  
                 commandInputRenderingTableTd.appendChild(commandInputBox);
