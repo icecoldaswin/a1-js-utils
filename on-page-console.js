@@ -2,6 +2,10 @@
 var commandNav={hist: [], index: 0};
 
 function navigateCommandHistory(event) {
+    if(document.querySelector('#command').dataset.mode === 'multi' && document.getElementById('cmd').value !== '') {
+        return;
+    }
+    
     var direction = event.keyCode == 38 ? -1 : 1;
     if (commandNav.index + direction >= 0 
             || commandNav.index + direction >= commandNav.hist.length) {
