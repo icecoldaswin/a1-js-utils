@@ -79,6 +79,7 @@ function handleKeyPress(event) {
     if((document.querySelector('#command').dataset.mode === 'multi' && event.which === 13 && event.shiftKey)) {
         return; // Ignore shift+enter in multi line mode.
     }
+
     if(handlers[event.which] !== undefined){
         handlers[event.which](event)
     };
@@ -169,7 +170,7 @@ var createConsole = () => {
                 commandInputControls["singleInputControl"] = commandInputSingle;
 
                 var commandInputMulti = document.createElement('textarea');
-                    commandInputMulti
+                    commandInputMulti.rows = 15;
                     commandInputMulti.style.width = "100%";
                     commandInputMulti.style.border = "none";
                     commandInputMulti.style.display = "inline";
