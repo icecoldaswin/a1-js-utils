@@ -25,8 +25,6 @@ function readInput(callBack, prompt) {
 }
 
 function tempHook(e, callback, n, forNsteps) {
-    console.log("tempHook called with n = " + n +"; input: " + e.target.value);
-    
     callback(e.target.value);
     postRun({addToHistory: false});
     handlers[13] = 
