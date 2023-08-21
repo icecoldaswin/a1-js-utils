@@ -74,9 +74,17 @@ var handlers = {
 };
 
 function handleKeyPress(event) {
+    if((document.querySelector('#command').dataset.mode === 'multi' && event.which === 13 && event.shiftKey)) {
+        return; // Ignore shift+enter in multi line mode.
+    }
     if(handlers[event.which] !== undefined){
         handlers[event.which](event)
     };
+}
+
+var commandInputControls = {
+    singleInputSymbol: "<b>></b>",
+    multiInputSymbol:  "<b>{/}</b>"
 }
 
 var clearconsole = () => document.getElementById('console-log').innerHTML = "";
@@ -125,6 +133,7 @@ var createConsole = () => {
 
         var commandInput = document.createElement('span');
         commandInput.id = "command";
+        commandInput.dataset.mode = "single";
         commandInput.style.display = "inline";
         commandInput.style.overflowX = "auto";
         commandInput.style.fontFamily = "monospace";
@@ -137,22 +146,49 @@ var createConsole = () => {
                 var commandSymbolRenderingTableTd = document.createElement('td');
                     commandSymbolRenderingTableTd.classList = "themed-color-code console";
                     commandSymbolRenderingTableTd.style.width = "1%";
-                    commandSymbolRenderingTableTd.innerText = ">";
+                    commandSymbolRenderingTableTd.style.cursor = "hand";
+                    commandSymbolRenderingTableTd.innerHTML = commandInput.dataset.mode === 'single' ? commandInputControls.singleInputSymbol : commandInputControls.multiInputSymbol;
                 var commandInputRenderingTableTd = document.createElement('td');
                     commandInputRenderingTableTd.classList = "themed-color-code console";
                     commandInputRenderingTableTd.style.width = "95%";
-                var commandInputBox = document.createElement('input');
-                    commandInputBox.type = "text";
-                    commandInputBox.style.width = "100%";
-                    commandInputBox.style.border = "none";
-                    commandInputBox.style.display = "inline";
-                    commandInputBox.id = "cmd";
-                    commandInputBox.placeholder="command";
-                    commandInputBox.autofocus = 'true';
-                    commandInputBox.classList = "themed-color-code console";
-                    commandInputBox.addEventListener('keydown', e => handleKeyPress(e));
- 
-                commandInputRenderingTableTd.appendChild(commandInputBox);
+                    
+                
+                var commandInputSingle = document.createElement('input');
+                    commandInputSingle.type = "text";
+                    commandInputSingle.style.width = "100%";
+                    commandInputSingle.style.border = "none";
+                    commandInputSingle.style.display = "inline";
+                    commandInputSingle.id = "cmd";
+                    commandInputSingle.placeholder="command";
+                    commandInputSingle.autofocus = 'true';
+                    commandInputSingle.classList = "themed-color-code console";
+                    commandInputSingle.addEventListener('keydown', e => handleKeyPress(e));
+                commandInputControls["singleInputControl"] = commandInputSingle;
+
+                var commandInputMulti = document.createElement('textarea');
+                    commandInputMulti
+                    commandInputMulti.style.width = "100%";
+                    commandInputMulti.style.border = "none";
+                    commandInputMulti.style.display = "inline";
+                    commandInputMulti.id = "cmd";
+                    commandInputMulti.placeholder="command; shift+enter for next line.";
+                    commandInputMulti.autofocus = 'true';
+                    commandInputMulti.classList = "themed-color-code console";
+                    commandInputMulti.addEventListener('keydown', e => handleKeyPress(e));
+                commandInputControls["multiInputControl"] = commandInputMulti;
+                commandInputRenderingTableTd.appendChild(commandInput.dataset.mode === 'single' ? commandInputSingle : commandInputMulti);
+                
+                commandSymbolRenderingTableTd.addEventListener('click', () => {
+                    commandSymbolRenderingTableTd.innerHTML = commandInput.dataset.mode === 'single' ? commandInputControls.multiInputSymbol : commandInputControls.singleInputSymbol;
+                    commandInputRenderingTableTd.removeChild(commandInput.dataset.mode === 'single' ? commandInputSingle : commandInputMulti);
+                                        
+                    var previousMode = commandInput.dataset.mode;
+                    delete commandInput.dataset.mode;
+                    commandInput.dataset.mode = (previousMode === 'single' ? 'multi' : 'single');
+
+                    commandInputRenderingTableTd.appendChild(commandInput.dataset.mode === 'single' ? commandInputSingle : commandInputMulti);
+                });
+
             commandInputRenderingTableTr.appendChild(commandSymbolRenderingTableTd);
             commandInputRenderingTableTr.appendChild(commandInputRenderingTableTd);
         commandInputRenderingTable.appendChild(commandInputRenderingTableTr);
