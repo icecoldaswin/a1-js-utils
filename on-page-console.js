@@ -11,6 +11,43 @@ function navigateCommandHistory(event) {
     document.getElementById('cmd').value = commandNav.hist[commandNav.index];
 }
 
+function readInput(callBack, prompt) {
+    if (callBack === undefined) {
+        throw new Error("You need to supply a call back to be invoked when user input is available.");
+    }
+    if(prompt !== undefined) {
+        console.log(prompt);
+    }
+    
+    callbackFnDef = eval("assignedCallback = " + callBack);
+    
+    rewireHandlerRunCmd(callbackFnDef, 1);
+}
+
+function tempHook(e, callback, n, forNsteps) {
+    console.log("tempHook called with n = " + n +"; input: " + e.target.value);
+    
+    callback(e.target.value);
+    postRun({addToHistory: false});
+    handlers[13] = 
+        (n >= forNsteps) 
+            ? runCmd 
+            : e => tempHook(e, callback, ((n === 0) ? 1 : n++));
+}
+
+function rewireHandlerRunCmd(callback, max) {
+    let forNsteps = max === undefined ? 1 : max;
+    handlers[13] = e => tempHook(e, callback, 1, forNsteps);
+}
+
+function postRun(props) {
+    if (props.addToHistory) {
+        commandNav.hist.push(document.getElementById('cmd').value);
+    }
+    document.getElementById('cmd').value = "";
+    document.getElementById('console-fieldset').scrollTop = document.getElementById('console-fieldset').scrollHeight;
+}
+
 function runCmd(event) {
     console.log(
         "cmdlet-" // highlighting prefix.
@@ -27,9 +64,7 @@ function runCmd(event) {
 
     console.log(result);
     
-    commandNav.hist.push(document.getElementById('cmd').value);
-    document.getElementById('cmd').value = "";
-    document.getElementById('console-fieldset').scrollTop = document.getElementById('console-fieldset').scrollHeight;
+    postRun({addToHistory: true});
 }
 
 var handlers = { 
@@ -194,7 +229,7 @@ var wireup = () => {
                 x.className = "themed-color-code console-message error " + theme;
                 
                 x.innerText = message.stack;
-            } else if (typeof message === 'boolean' || typeof message === 'object') {
+            } else if (typeof message === 'number' || typeof message === 'boolean' || typeof message === 'object') {
                 x.className = "themed-color-code console-message system " + theme;
 
                 x.innerText = message + ". Stringified: " + JSON.stringify(message);
