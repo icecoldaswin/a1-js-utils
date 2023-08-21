@@ -83,8 +83,8 @@ function handleKeyPress(event) {
 }
 
 var commandInputControls = {
-    singleInputSymbol: "<b>></b>",
-    multiInputSymbol:  "<b>{/}</b>"
+    singleInputSymbol: ">",
+    multiInputSymbol:  "<pre>{/}</pre>"
 }
 
 var clearconsole = () => document.getElementById('console-log').innerHTML = "";
@@ -144,10 +144,11 @@ var createConsole = () => {
             commandInputRenderingTable.style.width = "100%";
             var commandInputRenderingTableTr = document.createElement('tr');
                 var commandSymbolRenderingTableTd = document.createElement('td');
-                    commandSymbolRenderingTableTd.classList = "themed-color-code console";
-                    commandSymbolRenderingTableTd.style.width = "1%";
-                    commandSymbolRenderingTableTd.style.cursor = "hand";
-                    commandSymbolRenderingTableTd.innerHTML = commandInput.dataset.mode === 'single' ? commandInputControls.singleInputSymbol : commandInputControls.multiInputSymbol;
+                var commandSymbolBtn = document.createElement('button');
+                    
+                    commandSymbolBtn.style.width = "70%";
+                    commandSymbolBtn.innerHTML = commandInput.dataset.mode === 'single' ? commandInputControls.singleInputSymbol : commandInputControls.multiInputSymbol;
+                commandSymbolRenderingTableTd.appendChild(commandSymbolBtn);
                 var commandInputRenderingTableTd = document.createElement('td');
                     commandInputRenderingTableTd.classList = "themed-color-code console";
                     commandInputRenderingTableTd.style.width = "95%";
@@ -179,7 +180,7 @@ var createConsole = () => {
                 commandInputRenderingTableTd.appendChild(commandInput.dataset.mode === 'single' ? commandInputSingle : commandInputMulti);
                 
                 commandSymbolRenderingTableTd.addEventListener('click', () => {
-                    commandSymbolRenderingTableTd.innerHTML = commandInput.dataset.mode === 'single' ? commandInputControls.multiInputSymbol : commandInputControls.singleInputSymbol;
+                    commandSymbolBtn.innerHTML = commandInput.dataset.mode === 'single' ? commandInputControls.multiInputSymbol : commandInputControls.singleInputSymbol;
                     commandInputRenderingTableTd.removeChild(commandInput.dataset.mode === 'single' ? commandInputSingle : commandInputMulti);
                                         
                     var previousMode = commandInput.dataset.mode;
