@@ -128,7 +128,7 @@ var createConsole = () => {
     };
 
     var showHideCta = document.createElement("span");
-    showHideCta.id = "clear-console-cta";
+    showHideCta.id = "show-hide-cta";
     showHideCta.dataset.targetState = "cta-show";
     showHideCta.addEventListener('click', e => {clearconsole()});
     var showHideCtaIcon = document.createElement("i");
@@ -141,8 +141,6 @@ var createConsole = () => {
         e.target.dataset.targetState = targetState;
     });
 
-    legend.appendChild(showHideCta);
-
     var clearConsoleCta = document.createElement("span");
     clearConsoleCta.id = "clear-console-cta";
     clearConsoleCta.addEventListener('click', e => {clearconsole()});
@@ -152,6 +150,7 @@ var createConsole = () => {
 
     legend.innerText = "Console ";
     legend.appendChild(clearConsoleCta);
+    legend.appendChild(showHideCta);
     
         var consoleLogDiv = document.createElement('div');
         consoleLogDiv.id = "console-log";
