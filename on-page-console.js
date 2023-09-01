@@ -121,7 +121,8 @@ var createConsole = () => {
             controller: () => {
                 document.getElementById("console-log").style.display = "none";
                 document.getElementById("command").style.display = "none";
-                fieldSet.style.height =  "0%";
+                fieldSet.parentElement.dataset.retainHeight = fieldSet.parentElement.style.height;
+                fieldSet.parentElement.style.height =  "5%";
             },
             targetIconClassList: "fa fa-plus-square",
         },
@@ -129,7 +130,7 @@ var createConsole = () => {
             controller: () => {
                 document.getElementById("console-log").style.display = "initial";
                 document.getElementById("command").style.display = "initial";
-                fieldSet.style.height =  "100%";
+                fieldSet.parentElement.style.height =  fieldSet.parentElement.dataset.retainHeight;
             },
             targetIconClassList: "fa fa-minus-square-o",
         },
