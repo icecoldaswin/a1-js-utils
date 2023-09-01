@@ -116,6 +116,33 @@ var createConsole = () => {
 
     var legend = document.createElement("legend");
     
+    var showHideCtaControls = {
+        hide: {
+            targetIcon: "fa-square-plus",
+            controller: () => fieldSet.style.display = "none"
+        },
+        show: {
+            targetIcon: "fa-square-minus",
+            controller: () => fieldSet.style.display = "initial"
+        }
+    };
+
+    var showHideCta = document.createElement("span");
+    showHideCta.id = "clear-console-cta";
+    showHideCta.dataset.targetState = "cta-show";
+    showHideCta.addEventListener('click', e => {clearconsole()});
+    var showHideCtaIcon = document.createElement("i");
+    showHideCtaIcon.classList = "fa-regular " + showHideCtaControls[showHideCta.dataset.targetState];
+    showHideCta.appendChild(showHideCtaIcon);
+    showHideCta.addEventListener('click', e => {
+        showHideCtaControls[e.target.dataset.targetState].controller();
+        targetState = (e.target.dataset.targetState == 'show') ? 'hide' : 'show';
+        delete e.target.dataset.targetState;
+        e.target.dataset.targetState = targetState;
+    });
+
+    legend.appendChild(showHideCta);
+
     var clearConsoleCta = document.createElement("span");
     clearConsoleCta.id = "clear-console-cta";
     clearConsoleCta.addEventListener('click', e => {clearconsole()});
@@ -123,7 +150,7 @@ var createConsole = () => {
     clearConsoleFaRefreshIcon.classList = "fa fa-refresh";
     clearConsoleCta.appendChild(clearConsoleFaRefreshIcon);
 
-    legend.innerText = "Console. ";
+    legend.innerText = "Console ";
     legend.appendChild(clearConsoleCta);
     
         var consoleLogDiv = document.createElement('div');
