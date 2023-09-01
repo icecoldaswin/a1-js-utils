@@ -118,28 +118,37 @@ var createConsole = () => {
     
     var showHideCtaControls = {
         hide: {
-            targetIcon: "fa-square-plus",
-            controller: () => fieldSet.style.display = "none"
+            controller: () => {
+                document.getElementById("console-log").style.display = "none";
+                document.getElementById("command").style.display = "none";
+                fieldSet.style.height =  "0%";
+            },
+            targetIconClassList: "fa fa-plus-square",
         },
         show: {
-            targetIcon: "fa-square-minus",
-            controller: () => fieldSet.style.display = "initial"
+            controller: () => {
+                document.getElementById("console-log").style.display = "initial";
+                document.getElementById("command").style.display = "initial";
+                fieldSet.style.height =  "100%";
+            },
+            targetIconClassList: "fa fa-minus-square-o",
+        },
+        render: (force) => {
+            showHideCtaControls[showHideCta.dataset.targetState].controller();
+            showHideCtaIcon.classList = showHideCtaControls[showHideCta.dataset.targetState].targetIconClassList;
+            targetState = ((force === undefined ? showHideCta.dataset.targetState : force) === 'show') ? 'hide' : 'show';
+            delete showHideCta.dataset.targetState;
+            showHideCta.dataset.targetState = targetState;
         }
     };
 
     var showHideCta = document.createElement("span");
     showHideCta.id = "show-hide-cta";
-    showHideCta.dataset.targetState = "cta-show";
-    showHideCta.addEventListener('click', e => {clearconsole()});
+    showHideCta.dataset.targetState = "hide";
     var showHideCtaIcon = document.createElement("i");
-    showHideCtaIcon.classList = "fa-regular " + showHideCtaControls[showHideCta.dataset.targetState];
+    showHideCtaIcon.classList = showHideCtaControls[showHideCta.dataset.targetState].targetIconClassList;
     showHideCta.appendChild(showHideCtaIcon);
-    showHideCta.addEventListener('click', e => {
-        showHideCtaControls[e.target.dataset.targetState].controller();
-        targetState = (e.target.dataset.targetState == 'show') ? 'hide' : 'show';
-        delete e.target.dataset.targetState;
-        e.target.dataset.targetState = targetState;
-    });
+    showHideCta.addEventListener('click', e => showHideCtaControls.render());
 
     var clearConsoleCta = document.createElement("span");
     clearConsoleCta.id = "clear-console-cta";
@@ -150,6 +159,9 @@ var createConsole = () => {
 
     legend.innerText = "Console ";
     legend.appendChild(clearConsoleCta);
+    var spacer = document.createElement("span");
+    spacer.innerText="    ";
+    legend.appendChild(spacer);
     legend.appendChild(showHideCta);
     
         var consoleLogDiv = document.createElement('div');
@@ -239,6 +251,7 @@ var createConsole = () => {
         var consolePlaceHolder = consolePlaceHolderResults[0];
         consolePlaceHolder.appendChild(fieldSet);
         
+        showHideCtaControls.render('hide');
         wireup();
     }
 };
