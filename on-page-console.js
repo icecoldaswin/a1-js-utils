@@ -135,9 +135,12 @@ var createConsole = () => {
             targetIconClassList: "fa fa-minus-square-o",
         },
         render: (force) => {
-            showHideCtaControls[showHideCta.dataset.targetState].controller();
-            showHideCtaIcon.classList = showHideCtaControls[showHideCta.dataset.targetState].targetIconClassList;
-            targetState = ((force === undefined ? showHideCta.dataset.targetState : force) === 'show') ? 'hide' : 'show';
+            let intendedState = (force === undefined ? showHideCta.dataset.targetState : force);
+            
+            showHideCtaControls[intendedState].controller();
+            showHideCtaIcon.classList = showHideCtaControls[intendedState].targetIconClassList;
+
+            let targetState = (intendedState === 'show') ? 'hide' : 'show';
             delete showHideCta.dataset.targetState;
             showHideCta.dataset.targetState = targetState;
         }
@@ -251,7 +254,6 @@ var createConsole = () => {
     } else {
         var consolePlaceHolder = consolePlaceHolderResults[0];
         consolePlaceHolder.appendChild(fieldSet);
-        
         showHideCtaControls.render('hide');
         wireup();
     }
