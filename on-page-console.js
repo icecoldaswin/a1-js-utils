@@ -254,7 +254,7 @@ var createConsole = () => {
     } else {
         var consolePlaceHolder = consolePlaceHolderResults[0];
         consolePlaceHolder.appendChild(fieldSet);
-        showHideCtaControls.render('hide');
+        showHideCtaControls.render(consolePlaceHolder.getAttribute('minimized') === null ? 'show' : 'hide');
         wireup();
     }
 };
