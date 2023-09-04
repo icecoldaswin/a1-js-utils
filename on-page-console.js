@@ -122,7 +122,9 @@ var createConsole = () => {
                 document.getElementById("console-log").style.display = "none";
                 document.getElementById("command").style.display = "none";
                 fieldSet.parentElement.dataset.retainHeight = fieldSet.parentElement.style.height;
-                fieldSet.parentElement.style.height =  "5%";
+                fieldSet.parentElement.dataset.retainWidth = fieldSet.parentElement.style.width;
+                fieldSet.parentElement.style.height =  "1vh";
+                fieldSet.parentElement.style.width =  "5vw";
             },
             targetIconClassList: "fa fa-plus-square",
         },
@@ -131,6 +133,7 @@ var createConsole = () => {
                 document.getElementById("console-log").style.display = "initial";
                 document.getElementById("command").style.display = "initial";
                 fieldSet.parentElement.style.height =  fieldSet.parentElement.dataset.retainHeight;
+                fieldSet.parentElement.style.width =  fieldSet.parentElement.dataset.retainWidth;
             },
             targetIconClassList: "fa fa-minus-square-o",
         },
@@ -158,9 +161,12 @@ var createConsole = () => {
     clearConsoleCta.id = "clear-console-cta";
     clearConsoleCta.addEventListener('click', e => {clearconsole()});
     var clearConsoleFaRefreshIcon = document.createElement("i");
-    clearConsoleFaRefreshIcon.classList = "fa fa-refresh";
+    // clearConsoleFaRefreshIcon.classList = "fa fa-refresh";
+    clearConsoleFaRefreshIcon.classList = "fa fa-trash-o";
     clearConsoleCta.appendChild(clearConsoleFaRefreshIcon);
 
+    legend.style.fontFamily = "monospace";
+    legend.style.fontSize = "medium";
     legend.innerText = "Console ";
     legend.appendChild(clearConsoleCta);
     var spacer = document.createElement("span");
@@ -174,7 +180,6 @@ var createConsole = () => {
         consoleLogDiv.style.overflowY = "auto"; 
         consoleLogDiv.style.fontFamily = "monospace"; 
         consoleLogDiv.style.fontSize = "small";
-
 
         var commandInput = document.createElement('span');
         commandInput.id = "command";
