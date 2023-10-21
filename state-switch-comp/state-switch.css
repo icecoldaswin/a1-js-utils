@@ -1,0 +1,64 @@
+/* styles.css */
+
+/* Style the switch */
+input[type="checkbox"] {
+    transform: scale(2);
+    margin: 20px;
+  }
+  
+  /* Style the circular dial container */
+  .dial-container {
+    width: 100px;
+    height: 100px;
+    background: lightgray;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  /* Style the arrow in the dial */
+  .dial-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 6px 0;
+    border-color: #555 transparent transparent transparent;
+    top: 50%;
+    
+    cursor: pointer;
+  }
+  
+  .dial-arrow:hover {
+    border-color: #000 transparent transparent transparent;
+  }
+  
+  .dial-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #000; /* Change this to the desired dot color */
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+/* Add this to your state-switch.css */
+
+.label-container {
+  width: 50px; /* Adjust the width as needed */
+  height: 50px; /* Adjust the height as needed */
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #000; /* Add a border for the outer circle */
+  border-radius: 50%; /* Make it circular */
+  text-align: center;
+  font-size: 12px;
+  padding: 5px;
+  margin-top: -5px; /* Position it slightly above the dial */
+  margin-left: -5px; /* Position it slightly to the left of the dial */
+}

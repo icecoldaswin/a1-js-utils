@@ -1,2 +1,23 @@
-<div create-console-here minimized></div>
+<!-- <div create-console-here minimized></div> -->
 <script src="opc/on-page-console.js" type="text/javascript"></script>
+<script src="state-switch-comp/state-switch.js" type="text/javascript"></script>
+
+<div id="switch-container" aria-dial-size="60px">  test </div>
+
+  <script type="text/javascript">
+    // import { createStateSwitch } from './state-switch-comp/state-switch.js';
+
+    const element = document.getElementById('switch-container');
+    const values = {
+      'off': 'Off',
+      'low': 'Low',
+      'med': 'Medium',
+      'high': 'High'
+    };
+
+    function stateChanged(newValue) {
+      console.log('New state:', newValue);
+    }
+
+    createStateSwitch(element, values, stateChanged);
+  </script>
