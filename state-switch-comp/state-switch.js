@@ -44,7 +44,7 @@ function createStateSwitch(element, values, callback, defaultState) {
         // Create an element to display the selected value underneath the dial
         const selectedValueElement = document.createElement('div');
         selectedValueElement.className = 'selected-value';
-        dialContainer.appendChild(selectedValueElement);
+        // dialContainer.appendChild(selectedValueElement);
 
         // Calculate the degree increment based on the number of stops
         const degreeIncrement = 360 / valueKeys.length;
@@ -106,6 +106,7 @@ function createStateSwitch(element, values, callback, defaultState) {
         });
 
         element.appendChild(dialContainer);
+        element.appendChild(selectedValueElement);
         updateDialRotation();
     };
 
