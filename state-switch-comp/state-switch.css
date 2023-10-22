@@ -36,8 +36,8 @@ input[type="checkbox"] {
   }
   
   .dial-dot {
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     background-color: #000; /* Change this to the desired dot color */
     border-radius: 50%;
     position: absolute;
