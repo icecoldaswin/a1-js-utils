@@ -62,3 +62,45 @@ input[type="checkbox"] {
   margin-top: -5px; /* Position it slightly above the dial */
   margin-left: -5px; /* Position it slightly to the left of the dial */
 }
+
+/* Styles for the rectangular switch with the dot inside */
+.switch-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.switch-toggle {
+  width: 50px;
+  height: 25px;
+  background: #ccc;
+  border-radius: 12.5px; /* Half of the height for rounded edges */
+  transition: background 0.3s ease;
+  position: relative;
+}
+
+.switch-toggle.active {
+  background: #5cb85c; /* Active state background color */
+}
+
+.switch-dot {
+  width: 25px;
+  height: 25px;
+  background: #fff; /* Dot background color */
+  border-radius: 50%; /* Make the dot circular */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 1px;
+  transition: background 0.3s ease;
+}
+
+.switch-container.active .switch-dot {
+  background: #5cb85c; /* Active state dot background color */
+}
+
+.switch-label {
+  margin-left: 10px;
+}
