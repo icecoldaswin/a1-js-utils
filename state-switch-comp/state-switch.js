@@ -32,7 +32,7 @@ function createStateSwitch(element, values, callback, defaultState) {
 
             const switchLabel = document.createElement('div');
             switchLabel.className = 'switch-label';
-            switchLabel.textContent = values[defaultState]; // Set the label based on the default state
+            switchLabel.innerHTML = values[defaultState]; // Set the label based on the default state
             switchContainer.appendChild(switchLabel);
 
             element.appendChild(switchContainer);
@@ -63,7 +63,7 @@ function createStateSwitch(element, values, callback, defaultState) {
                 }
 
                 const currentValue = active ? valueKeys[1] : valueKeys[0];
-                switchLabel.textContent = values[currentValue];
+                switchLabel.innerHTML = values[currentValue];
                 callback(currentValue);
             });
         } else {
