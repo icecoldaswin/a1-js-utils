@@ -2,7 +2,7 @@ function createStateSwitch(element, values, callback, defaultState) {
     // Create a link element for the CSS file
     const cssLink = document.createElement('link');
     cssLink.rel = 'stylesheet';
-    cssLink.href = 'state-switch-comp/state-switch.css';
+    cssLink.href = 'https://icecoldaswin.github.io/a1-js-utils/state-switch-comp/state-switch.css';
     // Append the link element to the head of the document
     document.head.appendChild(cssLink);
 
