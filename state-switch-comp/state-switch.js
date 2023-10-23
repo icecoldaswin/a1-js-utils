@@ -2,7 +2,7 @@ function createStateSwitch(element, values, callback, defaultState) {
     // Create a link element for the CSS file
     const cssLink = document.createElement('link');
     cssLink.rel = 'stylesheet';
-    cssLink.href = 'https://icecoldaswin.github.io/a1-js-utils/state-switch-comp/state-switch.css';
+    cssLink.href = 'state-switch-comp/state-switch.css';
     // Append the link element to the head of the document
     document.head.appendChild(cssLink);
 
@@ -42,14 +42,14 @@ function createStateSwitch(element, values, callback, defaultState) {
             switchToggle.classList.toggle('active', active);
 
             // Set the dot's initial position
-            switchDot.style.left = active ? '25px' : '0';
+            switchDot.style.left = active ? '8px' : '0';
 
             switchContainer.addEventListener('click', () => {
                 active = !active;
                 switchToggle.classList.toggle('active', active);
 
                 // Move the dot left or right
-                switchDot.style.left = active ? '25px' : '0';
+                switchDot.style.left = active ? '8px' : '0';
 
                 const currentValue = active ? valueKeys[1] : valueKeys[0];
                 switchLabel.textContent = values[currentValue];
