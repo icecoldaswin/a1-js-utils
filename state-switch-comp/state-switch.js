@@ -2,7 +2,7 @@ function createStateSwitch(element, values, callback, defaultState) {
     // Create a link element for the CSS file
     const cssLink = document.createElement('link');
     cssLink.rel = 'stylesheet';
-    cssLink.href = 'https://icecoldaswin.github.io/a1-js-utils/state-switch-comp/state-switch.css';
+    cssLink.href = 'state-switch-comp/state-switch.css';
     // Append the link element to the head of the document
     document.head.appendChild(cssLink);
 
@@ -32,7 +32,7 @@ function createStateSwitch(element, values, callback, defaultState) {
 
             const switchLabel = document.createElement('div');
             switchLabel.className = 'switch-label';
-            switchLabel.textContent = values[valueKeys[0]]; // Set the initial label
+            switchLabel.textContent = values[defaultState]; // Set the label based on the default state
             switchContainer.appendChild(switchLabel);
 
             element.appendChild(switchContainer);
@@ -41,15 +41,26 @@ function createStateSwitch(element, values, callback, defaultState) {
             let active = defaultState === valueKeys[1];
             switchToggle.classList.toggle('active', active);
 
-            // Set the dot's initial position
-            switchDot.style.left = active ? '8px' : '0';
+            // Calculate the dot's position based on the aria-dial-size attribute
+            const dialSize = element.getAttribute('aria-dial-size');
+            if (dialSize) {
+                const dotPosition = active ? `calc(${dialSize} - 50px)` : '0';
+                switchDot.style.left = dotPosition;
+            } else {
+                switchDot.style.left = active ? '50px' : '0';
+            }
 
             switchContainer.addEventListener('click', () => {
                 active = !active;
                 switchToggle.classList.toggle('active', active);
 
-                // Move the dot left or right
-                switchDot.style.left = active ? '8px' : '0';
+                // Calculate the dot's position dynamically
+                if (dialSize) {
+                    const dotPosition = active ? `calc(${dialSize} - 50px)` : '0';
+                    switchDot.style.left = dotPosition;
+                } else {
+                    switchDot.style.left = active ? '50px' : '0';
+                }
 
                 const currentValue = active ? valueKeys[1] : valueKeys[0];
                 switchLabel.textContent = values[currentValue];
