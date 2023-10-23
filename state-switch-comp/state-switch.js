@@ -44,10 +44,10 @@ function createStateSwitch(element, values, callback, defaultState) {
             // Calculate the dot's position based on the aria-dial-size attribute
             const dialSize = element.getAttribute('aria-dial-size');
             if (dialSize) {
-                const dotPosition = active ? `calc(${dialSize} - 50px)` : '0';
+                const dotPosition = active ? `calc(${dialSize} - 8px)` : '0';
                 switchDot.style.left = dotPosition;
             } else {
-                switchDot.style.left = active ? '50px' : '0';
+                switchDot.style.left = active ? '8px' : '0';
             }
 
             switchContainer.addEventListener('click', () => {
@@ -56,10 +56,10 @@ function createStateSwitch(element, values, callback, defaultState) {
 
                 // Calculate the dot's position dynamically
                 if (dialSize) {
-                    const dotPosition = active ? `calc(${dialSize} - 50px)` : '0';
+                    const dotPosition = active ? `calc(${dialSize} - 8px)` : '0';
                     switchDot.style.left = dotPosition;
                 } else {
-                    switchDot.style.left = active ? '50px' : '0';
+                    switchDot.style.left = active ? '8px' : '0';
                 }
 
                 const currentValue = active ? valueKeys[1] : valueKeys[0];
