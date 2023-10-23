@@ -12,7 +12,7 @@ input[type="checkbox"] {
     height: 100px;
     background: lightgray;
     border-radius: 50%;
-    display: inline;
+    display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -42,7 +42,6 @@ input[type="checkbox"] {
     border-radius: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
-    display: inline;
 }
 
 /* Add this to your state-switch.css */
