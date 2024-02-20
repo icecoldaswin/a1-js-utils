@@ -1,8 +1,10 @@
 <!-- <div create-console-here minimized></div> -->
 <script src="opc/on-page-console.js" type="text/javascript"></script>
 <script src="state-switch-comp/state-switch.js" type="text/javascript"></script>
+<script src="typing-animator/typing-animator.js" type="text/javascript"></script>
 
 <div id="switch-container">  test </div>
+<div id="typing-animation-placeholder">  Typing animation shows here! </div>
 
   <script type="text/javascript">
     // import { createStateSwitch } from './state-switch-comp/state-switch.js';
@@ -18,4 +20,12 @@
     }
 
     createStateSwitch(element, values, stateChanged, 'true');
+
+    const animationPlaceholderElement = document.getElementById('typing-animation-placeholder');
+    let typingAnimator = new TypingAnimator({
+      punchLines: ["My name is Aswani", "My wife's name is Chandana"]
+    });
+
+    typingAnimator.animate();
+
   </script>

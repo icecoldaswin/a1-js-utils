@@ -57,7 +57,6 @@ input[type="checkbox"] {
   border: 2px solid #000; /* Add a border for the outer circle */
   border-radius: 50%; /* Make it circular */
   text-align: center;
-  font-size: 12px;
   padding: 5px;
   margin-top: -5px; /* Position it slightly above the dial */
   margin-left: -5px; /* Position it slightly to the left of the dial */
