@@ -86,7 +86,7 @@ function runCmd(event) {
     try {
         result = 
             hookRegistry[cmd.split(" ")[0]] !== undefined
-                ? hookRegistry[cmd](cmd)
+                ? hookRegistry[cmd.split(" ")[0]](cmd)
                 : eval(cmd);
     } catch(err) {
         result = err;
