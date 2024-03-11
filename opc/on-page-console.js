@@ -17,7 +17,11 @@ function help(){
 
 function _opc_addFnHook(fn) {
     if(typeof fn === 'function') {
-        hookRegistry[fn.name] = fn;
+        if(hookRegistry[fn.name] === undefined) {
+            hookRegistry[fn.name] = fn;
+        } else {
+            console.log("[WARN] Attempt to register script hook with name '"+ fn.name +"' ignored as the name is already taken.");
+        }
     }
 }
 
@@ -81,7 +85,7 @@ function runCmd(event) {
     var result;
     try {
         result = 
-            hookRegistry[cmd] !== undefined
+            hookRegistry[cmd.split(" ")[0]] !== undefined
                 ? hookRegistry[cmd](cmd)
                 : eval(cmd);
     } catch(err) {
