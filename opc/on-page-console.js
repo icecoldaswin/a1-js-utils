@@ -1,5 +1,25 @@
 
 var commandNav={hist: [], index: 0};
+const hookRegistry = {
+    'help': help
+};
+
+function help(){ 
+    console.log('[----on page console help section----]');
+    console.log('[------------------------------------]');
+    console.log('[Use this tool as a regular chrome c-]');
+    console.log('[-onsole. It also allows scripts to -]');
+    console.log('[-provide interfaces from one anothe-]');
+    console.log('[-r. To do this, call the function  -]');
+    console.log('[- after adding a dependency on this-]');
+    console.log('[-script.                            ]');
+}
+
+function _opc_addFnHook(fn) {
+    if(typeof fn === 'function') {
+        hookRegistry[fn.name] = fn;
+    }
+}
 
 function navigateCommandHistory(event) {
     if(document.querySelector('#command').dataset.mode === 'multi' && document.getElementById('cmd').value !== '') {
@@ -57,9 +77,13 @@ function runCmd(event) {
         + document.getElementById('cmd').value
     );
 
+    const cmd = document.getElementById('cmd').value;
     var result;
     try {
-        result = eval(document.getElementById('cmd').value);
+        result = 
+            hookRegistry[cmd] !== undefined
+                ? hookRegistry[cmd](cmd)
+                : eval(cmd);
     } catch(err) {
         result = err;
     }
