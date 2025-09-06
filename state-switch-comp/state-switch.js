@@ -1,12 +1,16 @@
 function createStateSwitch(element, values, callback, defaultState) {
     const cssHref = 'https://icecoldaswin.github.io/a1-js-utils/state-switch-comp/state-switch.css';
 
-    // Helper to build the switch once CSS is ready
+    /**
+     * Helper: Build the switch UI once CSS is ready
+     */
     const initSwitch = () => {
+        // Validate input element
         if (!(element instanceof HTMLElement)) {
             throw new Error('Invalid DOM element provided.');
         }
 
+        // Validate values object
         if (!values || (typeof values !== 'object') || Object.keys(values).length < 2) {
             throw new Error('Invalid values provided.');
         }
@@ -14,7 +18,9 @@ function createStateSwitch(element, values, callback, defaultState) {
         const valueKeys = Object.keys(values);
 
         if (valueKeys.length === 2) {
-            // Create a rectangular switch with rounded edges
+            /**
+             * Case: Two values → rectangular switch (toggle)
+             */
             const switchContainer = document.createElement('div');
             switchContainer.className = 'switch-container';
 
@@ -28,16 +34,16 @@ function createStateSwitch(element, values, callback, defaultState) {
 
             const switchLabel = document.createElement('div');
             switchLabel.className = 'switch-label';
-            switchLabel.innerHTML = values[defaultState]; // Set the label based on the default state
+            switchLabel.innerHTML = values[defaultState]; // Set label based on default state
             switchContainer.appendChild(switchLabel);
 
             element.appendChild(switchContainer);
 
-            // Set the initial state based on the defaultState parameter
+            // Initial state
             let active = defaultState === valueKeys[1];
             switchToggle.classList.toggle('active', active);
 
-            // Calculate the dot's position based on the aria-dial-size attribute
+            // Dot position (support optional aria-dial-size)
             const dialSize = element.getAttribute('aria-dial-size');
             if (dialSize) {
                 const dotPosition = active ? `calc(${dialSize} - 8px)` : '0';
@@ -46,11 +52,12 @@ function createStateSwitch(element, values, callback, defaultState) {
                 switchDot.style.left = active ? '8px' : '0';
             }
 
+            // Handle click to toggle state
             switchContainer.addEventListener('click', () => {
                 active = !active;
                 switchToggle.classList.toggle('active', active);
 
-                // Calculate the dot's position dynamically
+                // Update dot position dynamically
                 if (dialSize) {
                     const dotPosition = active ? `calc(${dialSize} - 8px)` : '0';
                     switchDot.style.left = dotPosition;
@@ -58,79 +65,79 @@ function createStateSwitch(element, values, callback, defaultState) {
                     switchDot.style.left = active ? '8px' : '0';
                 }
 
+                // Update label + trigger callback
                 const currentValue = active ? valueKeys[1] : valueKeys[0];
                 switchLabel.innerHTML = values[currentValue];
                 callback(currentValue);
             });
         } else {
-            // Create a circular dial
+            /**
+             * Case: More than two values → circular dial
+             */
             const dialContainer = document.createElement('div');
-            dialContainer.className = 'dial-container dial'; // Add a class
+            dialContainer.className = 'dial-container dial';
 
-            // Set the dial size based on the aria-dial-size attribute or use default
-            const dialSize = element.getAttribute('aria-dial-size') || '30px'; // Slightly larger size
+            // Size from aria-dial-size or default
+            const dialSize = element.getAttribute('aria-dial-size') || '30px';
             dialContainer.style.width = dialSize;
             dialContainer.style.height = dialSize;
 
-            // Add a dot element inside the dial container
+            // Dot inside the dial
             const dialDot = document.createElement('div');
             dialDot.className = 'dial-dot';
             dialContainer.appendChild(dialDot);
 
-            // Create an element to display the selected value underneath the dial
+            // Display current value under the dial
             const selectedValueElement = document.createElement('div');
             selectedValueElement.className = 'selected-value';
             dialContainer.appendChild(selectedValueElement);
 
-            // Calculate the degree increment based on the number of stops
+            // Rotation math
             const degreeIncrement = 360 / valueKeys.length;
             let currentDegree = 0;
-
-            // Calculate the initial rotation position based on the default state
             let currentIndex = valueKeys.indexOf(defaultState);
 
-            // Update the dial rotation based on the current index
+            // Helper: update rotation and label
             const updateDialRotation = () => {
                 const degrees = (currentIndex / valueKeys.length) * 360;
                 dialContainer.style.transform = `rotate(${degrees}deg)`;
 
-                // Move the dot 2px within the perimeter of the dial
+                // Move dot slightly inside the perimeter
                 const radians = (degrees * Math.PI) / 180;
-                const radius = (dialContainer.clientWidth - 10) / 2 - 2; // Move the dot 2px inside the circle
+                const radius = (dialContainer.clientWidth - 10) / 2 - 2;
                 const x = radius * Math.cos(radians);
                 const y = radius * Math.sin(radians);
                 dialDot.style.transform = `translate(${x}px, ${y}px)`;
 
-                // Update the selected value text
+                // Update text label
                 const currentValue = valueKeys[currentIndex];
                 selectedValueElement.textContent = values[currentValue];
             };
 
+            // Helper: smooth rotation effect
             const rotateDial = (degrees) => {
                 currentDegree += degrees;
-                const transformValue = `rotate(${currentDegree}deg)`;
-                dialContainer.style.transition = 'transform 0.3s ease'; // Add a transition effect
-                dialContainer.style.transform = transformValue;
+                dialContainer.style.transition = 'transform 0.3s ease';
+                dialContainer.style.transform = `rotate(${currentDegree}deg)`;
             };
 
+            // Move to next value (clockwise)
             const rotateClockwise = () => {
                 currentIndex = (currentIndex + 1) % valueKeys.length;
                 updateDialRotation();
-                const degrees = degreeIncrement;
-                rotateDial(degrees);
-                const currentValue = valueKeys[currentIndex];
-                callback(currentValue);
+                rotateDial(degreeIncrement);
+                callback(valueKeys[currentIndex]);
             };
 
+            // Move to previous value (counter-clockwise)
             const rotateCounterClockwise = () => {
                 currentIndex = (currentIndex - 1 + valueKeys.length) % valueKeys.length;
                 updateDialRotation();
-                const degrees = -degreeIncrement;
-                rotateDial(degrees);
-                const currentValue = valueKeys[currentIndex];
-                callback(currentValue);
+                rotateDial(-degreeIncrement);
+                callback(valueKeys[currentIndex]);
             };
 
+            // Click left/right half of dial
             dialContainer.addEventListener('click', (event) => {
                 const { clientX } = event;
                 const { left, width } = dialContainer.getBoundingClientRect();
@@ -146,23 +153,25 @@ function createStateSwitch(element, values, callback, defaultState) {
         }
     };
 
-    // Check if stylesheet is already in the DOM
+    /**
+     * Ensure CSS is loaded (safe check without touching cssRules)
+     */
     let cssLink = document.querySelector(`link[rel="stylesheet"][href="${cssHref}"]`);
 
     if (!cssLink) {
-        // Not loaded yet → create and append
+        // Not in DOM yet → create it and wait for load
         cssLink = document.createElement('link');
         cssLink.rel = 'stylesheet';
         cssLink.href = cssHref;
-        cssLink.onload = initSwitch; // lazy execute after load
+        cssLink.addEventListener('load', initSwitch, { once: true });
         document.head.appendChild(cssLink);
     } else {
         // Already present
-        if (cssLink.sheet?.cssRules?.length > 0) {
-            // Fully loaded → init immediately
+        if (cssLink.sheet) {
+            // Loaded → init immediately
             initSwitch();
         } else {
-            // Edge case: exists but not finished loading yet
+            // Still loading → wait
             cssLink.addEventListener('load', initSwitch, { once: true });
         }
     }
