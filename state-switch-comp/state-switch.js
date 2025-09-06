@@ -1,16 +1,8 @@
 function createStateSwitch(element, values, callback, defaultState) {
     const cssHref = 'https://icecoldaswin.github.io/a1-js-utils/state-switch-comp/state-switch.css';
 
-    // ✅ Only create and append the link element if it was not already added
-    let cssLink = document.querySelector(`link[rel="stylesheet"][href="${cssHref}"]`);
-    if (!cssLink) {
-        cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = cssHref;
-        document.head.appendChild(cssLink);
-    }
-
-    cssLink.onload = function () {
+    // Helper to build the switch once CSS is ready
+    const initSwitch = () => {
         if (!(element instanceof HTMLElement)) {
             throw new Error('Invalid DOM element provided.');
         }
@@ -153,4 +145,25 @@ function createStateSwitch(element, values, callback, defaultState) {
             updateDialRotation();
         }
     };
+
+    // Check if stylesheet is already in the DOM
+    let cssLink = document.querySelector(`link[rel="stylesheet"][href="${cssHref}"]`);
+
+    if (!cssLink) {
+        // Not loaded yet → create and append
+        cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = cssHref;
+        cssLink.onload = initSwitch; // lazy execute after load
+        document.head.appendChild(cssLink);
+    } else {
+        // Already present
+        if (cssLink.sheet && cssLink.sheet.cssRules.length > 0) {
+            // Fully loaded → init immediately
+            initSwitch();
+        } else {
+            // Edge case: exists but not finished loading yet
+            cssLink.addEventListener('load', initSwitch, { once: true });
+        }
+    }
 }
