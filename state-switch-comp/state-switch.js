@@ -1,10 +1,14 @@
 function createStateSwitch(element, values, callback, defaultState) {
-    // Create a link element for the CSS file
-    const cssLink = document.createElement('link');
-    cssLink.rel = 'stylesheet';
-    cssLink.href = 'https://icecoldaswin.github.io/a1-js-utils/state-switch-comp/state-switch.css';
-    // Append the link element to the head of the document
-    document.head.appendChild(cssLink);
+    const cssHref = 'https://icecoldaswin.github.io/a1-js-utils/state-switch-comp/state-switch.css';
+
+    // ✅ Only create and append the link element if it was not already added
+    let cssLink = document.querySelector(`link[rel="stylesheet"][href="${cssHref}"]`);
+    if (!cssLink) {
+        cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = cssHref;
+        document.head.appendChild(cssLink);
+    }
 
     cssLink.onload = function () {
         if (!(element instanceof HTMLElement)) {
@@ -91,11 +95,11 @@ function createStateSwitch(element, values, callback, defaultState) {
             let currentDegree = 0;
 
             // Calculate the initial rotation position based on the default state
-            currentIndex = valueKeys.indexOf(defaultState);
+            let currentIndex = valueKeys.indexOf(defaultState);
 
             // Update the dial rotation based on the current index
             const updateDialRotation = () => {
-                const degrees = (currentIndex / max) * 360;
+                const degrees = (currentIndex / valueKeys.length) * 360;
                 dialContainer.style.transform = `rotate(${degrees}deg)`;
 
                 // Move the dot 2px within the perimeter of the dial
@@ -149,7 +153,4 @@ function createStateSwitch(element, values, callback, defaultState) {
             updateDialRotation();
         }
     };
-
-    // Append the link element to the head of the document
-    document.head.appendChild(cssLink);
 }
