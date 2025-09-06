@@ -158,7 +158,7 @@ function createStateSwitch(element, values, callback, defaultState) {
         document.head.appendChild(cssLink);
     } else {
         // Already present
-        if (cssLink.sheet && cssLink.sheet.cssRules.length > 0) {
+        if (cssLink.sheet?.cssRules?.length > 0) {
             // Fully loaded → init immediately
             initSwitch();
         } else {
